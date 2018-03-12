@@ -1,7 +1,6 @@
 package com.company.Brendan;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Created by ericjohn1 on 10/25/2016.
@@ -9,8 +8,9 @@ import java.util.List;
 public class Equation {
 
     public static void main(String[] args) {
-        createEquation(100);
+        System.out.println(createEquation(100));
     }
+
     public static String createEquation(int num) {
 
         StringBuilder sb = new StringBuilder();
@@ -19,21 +19,26 @@ public class Equation {
 
         for (int i = 1; i <= num; i++) {
 
-            if (i % 3 == 0 || i % 5 ==0) {
+            if (i % 3 == 0 || i % 5 == 0) {
                 sum += i;
-                sb.append("+");
-                sb.append(String.valueOf(i));
+                sb.append("+").append(String.valueOf(i));
             }
         }
-        if(sb.length()==0){
-            return "";
-        }
-        sb.deleteCharAt(0);
-        sb.append("=");
-        sb.append(String.valueOf(sum));
 
-        System.out.println(sb);
+        sb.deleteCharAt(0).append("=" + String.valueOf(sum)).append(String.valueOf(sum));
+
         return sb.toString();
 
+    }
+
+    public static void streamMe() {
+        StringBuilder answer = new StringBuilder();
+
+        IntStream.rangeClosed(0, 100).mapToObj(
+                i -> i % 3 == 0 ?
+                        (i % 5 == 0 ? answer.append(i + "+") : answer.append(i + "+")) :
+                        (i % 5 == 0 ? answer.append(i + "+") : null));
+
+        System.out.println(answer.toString());
     }
 }
